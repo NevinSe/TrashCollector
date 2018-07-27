@@ -17,7 +17,6 @@ namespace TrashCollector.Models
             return userIdentity;
         }
     }
-
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
@@ -29,5 +28,8 @@ namespace TrashCollector.Models
         {
             return new ApplicationDbContext();
         }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Customer> Customers { get; set; }
     }
 }
