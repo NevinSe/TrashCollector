@@ -12,6 +12,7 @@ namespace TrashCollector.Controllers
 {
     public class CustomersController : Controller
     {
+        
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Customers
@@ -24,16 +25,19 @@ namespace TrashCollector.Controllers
         // GET: Customers/Details/5
         public ActionResult Details(int? id)
         {
+            CustomerAddressViewModel customerAddressViewModel = new CustomerAddressViewModel();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customers.Find(id);
-            if (customer == null)
+            customerAddressViewModel.customer = db.Customers.Find(id);
+            customerAddressViewModel.address = db.Addresses.Find(customerAddressViewModel.customer.AddressId);
+
+            if (customerAddressViewModel.customer == null)
             {
                 return HttpNotFound();
             }
-            return View(customer);
+            return View(customerAddressViewModel);
         }
 
         // GET: Customers/Create
@@ -55,13 +59,7 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CustomerAddressViewModel c)
         {
-            //Address address = new Address();
-            //address.CustomerId = customer.Id;
-            //address.StreetNumber = customer.Address.StreetNumber;
-            //address.StreetName = customer.Address.StreetName;
-            //address.City = customer.Address.City;
-            //address.State = customer.Address.State;
-            //address.Zipcode = customer.Address.Zipcode;
+            c.customer.UserName = User.Identity.Name;
             if (ModelState.IsValid)
             {
                 db.Addresses.Add(c.address);
@@ -77,17 +75,20 @@ namespace TrashCollector.Controllers
         // GET: Customers/Edit/5
         public ActionResult Edit(int? id)
         {
+            CustomerAddressViewModel customerAddressViewModel = new CustomerAddressViewModel();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Customer customer = db.Customers.Find(id);
-            if (customer == null)
+            customerAddressViewModel.customer = db.Customers.Find(id);
+            customerAddressViewModel.address = db.Addresses.Find(customerAddressViewModel.customer.AddressId);
+
+            if (customerAddressViewModel.customer == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AddressID = new SelectList(db.Addresses, "Id", "Address", customer.AddressId);
-            return View(customer);
+            //ViewBag.AddressID = new SelectList(db.Addresses, "Id", "Address", customerAddressViewModel.customer.AddressId);
+            return View(customerAddressViewModel);
         }
 
         // POST: Customers/Edit/5
@@ -95,16 +96,27 @@ namespace TrashCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,AddressId")] Customer customer)
+        public ActionResult Edit(CustomerAddressViewModel customerAddressViewModel)
         {
+            
             if (ModelState.IsValid)
             {
-                db.Entry(customer).State = EntityState.Modified;
+                var editCustomer = db.Customers.Find(customerAddressViewModel.customer.Id);
+                var editAddress = db.Addresses.Where(e => e.CustomerId == customerAddressViewModel.address.CustomerId).Single();
+                editCustomer.FirstName = customerAddressViewModel.customer.FirstName;
+                editCustomer.LastName = customerAddressViewModel.customer.LastName;
+                editCustomer.UserName = customerAddressViewModel.customer.UserName;
+                editCustomer.PhoneNumber = customerAddressViewModel.customer.PhoneNumber;
+                editAddress.StreetNumber = customerAddressViewModel.address.StreetNumber;
+                editAddress.StreetName = customerAddressViewModel.address.StreetName;
+                editAddress.City = customerAddressViewModel.address.City;
+                editAddress.State = customerAddressViewModel.address.State;
+                editAddress.Zipcode = customerAddressViewModel.address.Zipcode;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AddressID = new SelectList(db.Addresses, "Id", "Address", customer.AddressId);
-            return View(customer);
+            ViewBag.AddressID = new SelectList(db.Addresses, "Id", "Address", customerAddressViewModel.customer.AddressId);
+            return View(customerAddressViewModel);
         }
 
         // GET: Customers/Delete/5

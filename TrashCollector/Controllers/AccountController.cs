@@ -68,19 +68,30 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+           
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
+            var customerUserRole = context.Customers.Where(c => c.UserName == model.UserName).SingleOrDefault();
+            var employeeUserRole = context.Employees.Where(c => c.UserName == model.UserName).SingleOrDefault();
             // This doesn't count login failures towards account lockout   
             // To enable password failures to trigger account lockout, change to shouldLockout: true   
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
+                    if(customerUserRole != default(Customer))
+                    {
+                        return RedirectToAction("Index", "Customers");
+                    }
+                    else if(employeeUserRole != default(Employee))
+                    {
+                        return RedirectToAction("Index", "Employees");
+                    }
                     return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
+                case SignInStatus.LockedOut: 
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
@@ -174,7 +185,6 @@ namespace TrashCollector.Controllers
                     {
                         return RedirectToAction("Index", "Employees");
                     }
-                   
                 }
                 ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))
                                           .ToList(), "Name", "Name");
