@@ -46,7 +46,7 @@ namespace TrashCollector.Controllers
             CustomerAddressViewModel customerAddressViewModel = new CustomerAddressViewModel()
             {
                 address = new Address(),
-                customer = new Customer()
+                customer = new Customer(),
             };
 
             return View(customerAddressViewModel);
@@ -57,19 +57,24 @@ namespace TrashCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CustomerAddressViewModel c)
+        public ActionResult Create(CustomerAddressViewModel customerAddressViewModel, string DayOfWeek)
         {
-            c.customer.UserName = User.Identity.Name;
+            customerAddressViewModel.PickUps = new PickUps();
+            customerAddressViewModel.PickUps.CustomerId = customerAddressViewModel.customer.Id;
+            customerAddressViewModel.PickUps.DayOfWeek = DayOfWeek;
+            customerAddressViewModel.PickUps.Cost = 75;
+            customerAddressViewModel.customer.UserName = User.Identity.Name;
             if (ModelState.IsValid)
             {
-                db.Addresses.Add(c.address);
-                db.Customers.Add(c.customer);
+                db.PickUps.Add(customerAddressViewModel.PickUps);
+                db.Addresses.Add(customerAddressViewModel.address);
+                db.Customers.Add(customerAddressViewModel.customer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Customers");
             }
 
-            ViewBag.AddressID = new SelectList(db.Addresses, "Id", "Address", c.customer.AddressId);
-            return View(c);
+            ViewBag.AddressID = new SelectList(db.Addresses, "Id", "Address", customerAddressViewModel.customer.AddressId);
+            return View(customerAddressViewModel);
         }
 
         // GET: Customers/Edit/5
@@ -96,13 +101,14 @@ namespace TrashCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(CustomerAddressViewModel customerAddressViewModel)
+        public ActionResult Edit(CustomerAddressViewModel customerAddressViewModel, string dayofweek)
         {
             
             if (ModelState.IsValid)
             {
                 var editCustomer = db.Customers.Find(customerAddressViewModel.customer.Id);
                 var editAddress = db.Addresses.Where(e => e.CustomerId == customerAddressViewModel.address.CustomerId).Single();
+                var editPickUp = db.PickUps.Where(p => p.CustomerId == customerAddressViewModel.customer.Id).Single();
                 editCustomer.FirstName = customerAddressViewModel.customer.FirstName;
                 editCustomer.LastName = customerAddressViewModel.customer.LastName;
                 editCustomer.UserName = customerAddressViewModel.customer.UserName;
@@ -112,6 +118,7 @@ namespace TrashCollector.Controllers
                 editAddress.City = customerAddressViewModel.address.City;
                 editAddress.State = customerAddressViewModel.address.State;
                 editAddress.Zipcode = customerAddressViewModel.address.Zipcode;
+                editPickUp.DayOfWeek = dayofweek;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

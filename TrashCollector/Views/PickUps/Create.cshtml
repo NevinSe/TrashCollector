@@ -1,0 +1,76 @@
+﻿@model TrashCollector.Models.PickUps
+
+@{
+    ViewBag.Title = "Scedule Pick up days";
+}
+@using System.Web.UI.WebControls;
+@{var listItems = new List<ListItem>
+{
+new ListItem { Text = "Jan", Value= "1" },
+new ListItem { Text = "Feb", Value= "2" },
+new ListItem { Text = "Mar", Value= "3" },
+new ListItem { Text = "Apr", Value= "4" },
+new ListItem { Text = "May", Value= "5" },
+new ListItem { Text = "Jun", Value= "6" },
+new ListItem { Text = "Jul", Value= "7" },
+new ListItem { Text = "Aug", Value= "8" },
+new ListItem { Text = "Sep", Value= "9" },
+new ListItem { Text = "Oct", Value= "10"},
+new ListItem { Text = "Nov", Value= "11"},
+new ListItem { Text = "Dec", Value= "12"}
+};
+}
+@{ var listDate = new List<ListItem>
+{
+new ListItem { Text = "1", Value= "1" },
+new ListItem { Text = "2", Value= "2" },
+new ListItem { Text = "3", Value= "3" },
+new ListItem { Text = "4", Value= "4" },
+new ListItem { Text = "5", Value= "5" },
+new ListItem { Text = "6", Value= "6" },
+new ListItem { Text = "7", Value= "7" },
+new ListItem { Text = "8", Value= "8" },
+new ListItem { Text = "9", Value= "9" },
+new ListItem { Text = "10", Value= "10"},
+new ListItem { Text = "11", Value= "11"},
+new ListItem { Text = "12", Value= "12"},new ListItem { Text = "13", Value= "13"},new ListItem { Text = "14", Value= "14"},new ListItem { Text = "15", Value= "15"},
+new ListItem { Text = "16", Value= "16"},new ListItem { Text = "17", Value= "17"},new ListItem { Text = "18", Value= "18"},new ListItem { Text = "19", Value= "19"},
+new ListItem { Text = "20", Value= "20"},new ListItem { Text = "21", Value= "21"},new ListItem { Text = "22", Value= "22"},new ListItem { Text = "23", Value= "23"},
+new ListItem { Text = "24", Value= "24"},new ListItem { Text = "25", Value= "25"},new ListItem { Text = "26", Value= "26"},new ListItem { Text = "27", Value= "27"},
+new ListItem { Text = "28", Value= "28"},new ListItem { Text = "29", Value= "29"},new ListItem { Text = "30", Value= "30"}
+};
+}
+
+<h2>View</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>PickUps</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Pick Up Date", new { @class = "col-md-2 control-label" })
+            <div class="col-md-1">
+                @*@Html.DropDownList("Name")*@
+                @Html.DropDownList("Month", new SelectList(listItems, "Value", "Text"))
+            </div>
+            <div class="col-md-1">
+                @*@Html.DropDownList("Name")*@
+                @Html.DropDownList("Date", new SelectList(listDate, "Value", "Text"))
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -195,6 +195,7 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PickUpsController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\usercontroller.cs" />
     <Compile Include="Global.asax.cs">
@@ -212,6 +213,22 @@
     <Compile Include="Migrations\201807271831392_add-migration ChangeTables.Designer.cs">
       <DependentUpon>201807271831392_add-migration ChangeTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807301346571_AddedPickUps.cs" />
+    <Compile Include="Migrations\201807301346571_AddedPickUps.Designer.cs">
+      <DependentUpon>201807301346571_AddedPickUps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807301354543_InitializeDatabasePickups.cs" />
+    <Compile Include="Migrations\201807301354543_InitializeDatabasePickups.Designer.cs">
+      <DependentUpon>201807301354543_InitializeDatabasePickups.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807301646546_addedDayOfWeek.cs" />
+    <Compile Include="Migrations\201807301646546_addedDayOfWeek.Designer.cs">
+      <DependentUpon>201807301646546_addedDayOfWeek.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807301833148_madeDateTimeNullable.cs" />
+    <Compile Include="Migrations\201807301833148_madeDateTimeNullable.Designer.cs">
+      <DependentUpon>201807301833148_madeDateTimeNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
@@ -220,6 +237,7 @@
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PickUps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -299,6 +317,11 @@
     <Content Include="Views\Employees\Create.cshtml" />
     <Content Include="Views\Employees\Edit.cshtml" />
     <Content Include="Views\Employees\Delete.cshtml" />
+    <Content Include="Views\Shared\Customer_Layout.cshtml" />
+    <Content Include="Views\Shared\Employee_Layout.cshtml" />
+    <Content Include="Views\PickUps\Create.cshtml" />
+    <Content Include="Views\PickUps\Index.cshtml" />
+    <Content Include="Views\PickUps\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -325,6 +348,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807271831392_add-migration ChangeTables.resx">
       <DependentUpon>201807271831392_add-migration ChangeTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807301346571_AddedPickUps.resx">
+      <DependentUpon>201807301346571_AddedPickUps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807301354543_InitializeDatabasePickups.resx">
+      <DependentUpon>201807301354543_InitializeDatabasePickups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807301646546_addedDayOfWeek.resx">
+      <DependentUpon>201807301646546_addedDayOfWeek.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807301833148_madeDateTimeNullable.resx">
+      <DependentUpon>201807301833148_madeDateTimeNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

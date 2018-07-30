@@ -9,5 +9,6 @@ namespace TrashCollector.Models
     {
         public Customer customer { get; set; }
         public Address address { get; set; }
+        public PickUps PickUps { get; set; }
     }
 }
