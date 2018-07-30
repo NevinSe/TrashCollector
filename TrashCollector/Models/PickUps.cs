@@ -14,8 +14,5 @@ namespace TrashCollector.Models
         public string DayOfWeek { get; set; }
         public DateTime? PickUpDate { get; set; }
         public double Cost { get; set; }
-        [ForeignKey("Customer")]
-        public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
     }
 }

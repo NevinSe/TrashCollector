@@ -201,33 +201,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807261516229_update.cs" />
-    <Compile Include="Migrations\201807261516229_update.Designer.cs">
-      <DependentUpon>201807261516229_update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807261608308_update1.cs" />
-    <Compile Include="Migrations\201807261608308_update1.Designer.cs">
-      <DependentUpon>201807261608308_update1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807271831392_add-migration ChangeTables.cs" />
-    <Compile Include="Migrations\201807271831392_add-migration ChangeTables.Designer.cs">
-      <DependentUpon>201807271831392_add-migration ChangeTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807301346571_AddedPickUps.cs" />
-    <Compile Include="Migrations\201807301346571_AddedPickUps.Designer.cs">
-      <DependentUpon>201807301346571_AddedPickUps.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807301354543_InitializeDatabasePickups.cs" />
-    <Compile Include="Migrations\201807301354543_InitializeDatabasePickups.Designer.cs">
-      <DependentUpon>201807301354543_InitializeDatabasePickups.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807301646546_addedDayOfWeek.cs" />
-    <Compile Include="Migrations\201807301646546_addedDayOfWeek.Designer.cs">
-      <DependentUpon>201807301646546_addedDayOfWeek.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807301833148_madeDateTimeNullable.cs" />
-    <Compile Include="Migrations\201807301833148_madeDateTimeNullable.Designer.cs">
-      <DependentUpon>201807301833148_madeDateTimeNullable.cs</DependentUpon>
+    <Compile Include="Migrations\201807302059180_redo.cs" />
+    <Compile Include="Migrations\201807302059180_redo.Designer.cs">
+      <DependentUpon>201807302059180_redo.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -340,26 +316,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807261516229_update.resx">
-      <DependentUpon>201807261516229_update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807261608308_update1.resx">
-      <DependentUpon>201807261608308_update1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807271831392_add-migration ChangeTables.resx">
-      <DependentUpon>201807271831392_add-migration ChangeTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807301346571_AddedPickUps.resx">
-      <DependentUpon>201807301346571_AddedPickUps.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807301354543_InitializeDatabasePickups.resx">
-      <DependentUpon>201807301354543_InitializeDatabasePickups.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807301646546_addedDayOfWeek.resx">
-      <DependentUpon>201807301646546_addedDayOfWeek.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807301833148_madeDateTimeNullable.resx">
-      <DependentUpon>201807301833148_madeDateTimeNullable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807302059180_redo.resx">
+      <DependentUpon>201807302059180_redo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

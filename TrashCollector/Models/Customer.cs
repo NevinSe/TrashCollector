@@ -23,6 +23,9 @@ namespace TrashCollector.Models
         [ForeignKey("Address")]
         public int AddressId { get; set; }
         public Address Address { get; set; }
+        [ForeignKey("PickUps")]
+        public int PickId { get; set; }
+        public PickUps PickUps { get; set; }
         public string UserName { get; set; }
     }
 }

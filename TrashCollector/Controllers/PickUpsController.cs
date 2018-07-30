@@ -15,11 +15,11 @@ namespace TrashCollector.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: PickUps
-        public ActionResult Index()
-        {
-            var pickUps = db.PickUps.Include(p => p.Customer);
-            return View(pickUps.ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //   // var pickUps = db.PickUps.Include(p => p.Customer);
+        //    return View(pickUps.ToList());
+        //}
 
         // GET: PickUps/Details/5
         public ActionResult Details(int? id)
@@ -52,7 +52,7 @@ namespace TrashCollector.Controllers
         {
             var customer = db.Customers.Where(c => c.UserName == User.Identity.Name).SingleOrDefault();
             pickUps.PickUpDate = new DateTime(2018, int.Parse(Month), int.Parse(Date));
-            pickUps.CustomerId = customer.Id;
+           // pickUps.CustomerId = customer.Id;
             pickUps.Cost = 75;
             if (ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace TrashCollector.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", pickUps.CustomerId);
+            //ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", pickUps.CustomerId);
             return View(pickUps);
         }
 
@@ -76,7 +76,7 @@ namespace TrashCollector.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", pickUps.CustomerId);
+           // ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", pickUps.CustomerId);
             return View(pickUps);
         }
 
@@ -93,7 +93,7 @@ namespace TrashCollector.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", pickUps.CustomerId);
+            //ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", pickUps.CustomerId);
             return View(pickUps);
         }
 
