@@ -54,7 +54,6 @@ namespace TrashCollector.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(address);
         }
 

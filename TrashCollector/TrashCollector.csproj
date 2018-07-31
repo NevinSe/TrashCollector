@@ -201,9 +201,41 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807302059180_redo.cs" />
-    <Compile Include="Migrations\201807302059180_redo.Designer.cs">
-      <DependentUpon>201807302059180_redo.cs</DependentUpon>
+    <Compile Include="Migrations\201807311214318_initial.cs" />
+    <Compile Include="Migrations\201807311214318_initial.Designer.cs">
+      <DependentUpon>201807311214318_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807311402403_AccountBalance.cs" />
+    <Compile Include="Migrations\201807311402403_AccountBalance.Designer.cs">
+      <DependentUpon>201807311402403_AccountBalance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807311503534_updatetables.cs" />
+    <Compile Include="Migrations\201807311503534_updatetables.Designer.cs">
+      <DependentUpon>201807311503534_updatetables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807311826239_employeeupdate.cs" />
+    <Compile Include="Migrations\201807311826239_employeeupdate.Designer.cs">
+      <DependentUpon>201807311826239_employeeupdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807311827204_pickupupdate.cs" />
+    <Compile Include="Migrations\201807311827204_pickupupdate.Designer.cs">
+      <DependentUpon>201807311827204_pickupupdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807311843338_deletekey.cs" />
+    <Compile Include="Migrations\201807311843338_deletekey.Designer.cs">
+      <DependentUpon>201807311843338_deletekey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807312033189_listchange.cs" />
+    <Compile Include="Migrations\201807312033189_listchange.Designer.cs">
+      <DependentUpon>201807312033189_listchange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807312040556_undidlist.cs" />
+    <Compile Include="Migrations\201807312040556_undidlist.Designer.cs">
+      <DependentUpon>201807312040556_undidlist.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807312156414_newstuff.cs" />
+    <Compile Include="Migrations\201807312156414_newstuff.Designer.cs">
+      <DependentUpon>201807312156414_newstuff.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -298,6 +330,8 @@
     <Content Include="Views\PickUps\Create.cshtml" />
     <Content Include="Views\PickUps\Index.cshtml" />
     <Content Include="Views\PickUps\Edit.cshtml" />
+    <Content Include="Views\PickUps\PickUp.cshtml" />
+    <Content Include="Views\Customers\SuspendPickUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -316,8 +350,32 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201807302059180_redo.resx">
-      <DependentUpon>201807302059180_redo.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807311214318_initial.resx">
+      <DependentUpon>201807311214318_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807311402403_AccountBalance.resx">
+      <DependentUpon>201807311402403_AccountBalance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807311503534_updatetables.resx">
+      <DependentUpon>201807311503534_updatetables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807311826239_employeeupdate.resx">
+      <DependentUpon>201807311826239_employeeupdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807311827204_pickupupdate.resx">
+      <DependentUpon>201807311827204_pickupupdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807311843338_deletekey.resx">
+      <DependentUpon>201807311843338_deletekey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807312033189_listchange.resx">
+      <DependentUpon>201807312033189_listchange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807312040556_undidlist.resx">
+      <DependentUpon>201807312040556_undidlist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807312156414_newstuff.resx">
+      <DependentUpon>201807312156414_newstuff.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

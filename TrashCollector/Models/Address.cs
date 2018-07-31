@@ -10,6 +10,7 @@ namespace TrashCollector.Models
     {
         [Key]
         public int CustomerId { get; set; }
+        public int CustomerAddressId { get; set; }
         [Display(Name = "Street Number")]
         public string StreetNumber { get; set; }
         [Display(Name = "Street Name")]

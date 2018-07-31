@@ -11,8 +11,12 @@ namespace TrashCollector.Models
     {
         [Key]
         public int PickUpId { get; set; }
+        public int PickCustomerId { get; set; }
         public string DayOfWeek { get; set; }
         public DateTime? PickUpDate { get; set; }
         public double Cost { get; set; }
+        public string Zipcode { get; set; }
+        public DateTime? SuspendPickUpStart { get; set; }
+        public DateTime? SuspendPickUpEnd { get; set; }
     }
 }

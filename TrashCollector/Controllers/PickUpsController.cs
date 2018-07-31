@@ -15,12 +15,16 @@ namespace TrashCollector.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: PickUps
-        //public ActionResult Index()
-        //{
-        //   // var pickUps = db.PickUps.Include(p => p.Customer);
-        //    return View(pickUps.ToList());
-        //}
+        public ActionResult Index()
+        {
+            Employee employee = db.Employees.Where(e => e.UserName == User.Identity.Name).Single();
+            var test = db.PickUps.Select(p => p.PickCustomerId).Distinct().ToList();
 
+            var pickUps = db.Customers.Include(p=>p.Address).Include(p=>p.PickUps).Where(p => test.Contains(p.Id)).ToList();
+
+            var results = pickUps.Where(p => p.Address.Zipcode == employee.Zipcode);
+            return View(results);
+        }
         // GET: PickUps/Details/5
         public ActionResult Details(int? id)
         {
@@ -51,14 +55,17 @@ namespace TrashCollector.Controllers
         public ActionResult Create(PickUps pickUps, string Month, string Date, string DayOfWeek)
         {
             var customer = db.Customers.Where(c => c.UserName == User.Identity.Name).SingleOrDefault();
-            pickUps.PickUpDate = new DateTime(2018, int.Parse(Month), int.Parse(Date));
-           // pickUps.CustomerId = customer.Id;
-            pickUps.Cost = 75;
+            var pickupObject = db.PickUps.Where(p => p.PickCustomerId == customer.Id).Single();
+            pickupObject.PickUpDate = new DateTime(2018, int.Parse(Month), int.Parse(Date));
+            pickupObject.Cost += 25;
+            //pickUps.PickUpDate = new DateTime(2018, int.Parse(Month), int.Parse(Date));
+            //pickUps.PickCustomerId = customer.Id;
+            //pickUps.Cost = 25;
+            //pickUps.Zipcode = customer.Address.Zipcode;
             if (ModelState.IsValid)
             {
-                db.PickUps.Add(pickUps);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Customers", new { id = customer.Id });
             }
             //ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", pickUps.CustomerId);
             return View(pickUps);
@@ -93,7 +100,7 @@ namespace TrashCollector.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            //ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", pickUps.CustomerId);
+            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "FirstName", pickUps.PickUpId);
             return View(pickUps);
         }
 
@@ -118,7 +125,9 @@ namespace TrashCollector.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             PickUps pickUps = db.PickUps.Find(id);
-            db.PickUps.Remove(pickUps);
+            Customer customer = db.Customers.Find(pickUps.PickCustomerId);
+            customer.AccountBalance = pickUps.Cost;
+            pickUps.PickUpDate = null;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

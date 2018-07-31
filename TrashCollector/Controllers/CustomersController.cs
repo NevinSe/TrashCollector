@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -12,13 +13,12 @@ namespace TrashCollector.Controllers
 {
     public class CustomersController : Controller
     {
-        
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Customers
         public ActionResult Index()
         {
-            var customers = db.Customers.Include(c => c.Address);
+            var customers = db.Customers.Include(c => c.Address).Include(c => c.PickUps);
             return View(customers.ToList());
         }
         public ActionResult SuspendPickUps(int? id)
@@ -28,9 +28,14 @@ namespace TrashCollector.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SuspendPickUps(PickUps pickUps)
+        public ActionResult SuspendPickUps(string StartMonth, string StartDate,string EndMonth, string EndDate)
         {
-            return View(pickUps);
+            var customer = db.Customers.Where(c => c.Id == int.Parse(User.Identity.GetUserId())).Single();
+            var pickup = db.PickUps.Where(p => p.PickCustomerId == customer.Id).Single();
+            pickup.SuspendPickUpStart = new DateTime(2018, int.Parse(StartMonth), int.Parse(StartDate));
+            pickup.SuspendPickUpEnd = new DateTime(2018, int.Parse(EndMonth), int.Parse(EndDate));
+            db.SaveChanges();
+            return RedirectToAction("Details", "Customers", new { id = customer.Id });
         }
         // GET: Customers/Details/5
         public ActionResult Details(int? id)
@@ -42,7 +47,7 @@ namespace TrashCollector.Controllers
             }
             customerAddressViewModel.customer = db.Customers.Find(id);
             customerAddressViewModel.address = db.Addresses.Find(customerAddressViewModel.customer.AddressId);
-            //customerAddressViewModel.PickUps = db.PickUps.Find(customerAddressViewModel.)
+            customerAddressViewModel.PickUps = db.PickUps.Find(customerAddressViewModel.customer.PickId);
 
             if (customerAddressViewModel.customer == null)
             {
@@ -70,17 +75,20 @@ namespace TrashCollector.Controllers
         public ActionResult Create(CustomerAddressViewModel customerAddressViewModel, string DayOfWeek)
         {
             customerAddressViewModel.PickUps = new PickUps();
-            //customerAddressViewModel.PickUps.CustomerId = customerAddressViewModel.customer.Id;
             customerAddressViewModel.PickUps.DayOfWeek = DayOfWeek;
+            customerAddressViewModel.PickUps.Zipcode = customerAddressViewModel.address.Zipcode;
+            customerAddressViewModel.PickUps.PickCustomerId = customerAddressViewModel.customer.Id;
+            customerAddressViewModel.address.CustomerAddressId = customerAddressViewModel.customer.Id;
             customerAddressViewModel.PickUps.Cost = 75;
             customerAddressViewModel.customer.UserName = User.Identity.Name;
+            customerAddressViewModel.customer.Email = db.Users.Where(p => p.UserName == customerAddressViewModel.customer.UserName).Select(c => c.Email).ToString();
             if (ModelState.IsValid)
             {
                 db.PickUps.Add(customerAddressViewModel.PickUps);
                 db.Addresses.Add(customerAddressViewModel.address);
                 db.Customers.Add(customerAddressViewModel.customer);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Customers");
+                return RedirectToAction("Details", "Customers", new{ id = customerAddressViewModel.customer.Id});
             }
 
             ViewBag.AddressID = new SelectList(db.Addresses, "Id", "Address", customerAddressViewModel.customer.AddressId);
@@ -102,7 +110,7 @@ namespace TrashCollector.Controllers
             {
                 return HttpNotFound();
             }
-            //ViewBag.AddressID = new SelectList(db.Addresses, "Id", "Address", customerAddressViewModel.customer.AddressId);
+           ViewBag.AddressID = new SelectList(db.Addresses, "Id", "Address", customerAddressViewModel.customer.AddressId);
             return View(customerAddressViewModel);
         }
 
@@ -118,7 +126,7 @@ namespace TrashCollector.Controllers
             {
                 var editCustomer = db.Customers.Find(customerAddressViewModel.customer.Id);
                 var editAddress = db.Addresses.Where(e => e.CustomerId == customerAddressViewModel.address.CustomerId).Single();
-                //var editPickUp = db.PickUps.Where(p => p.CustomerId == customerAddressViewModel.customer.Id).Single();
+                var editPickUp = db.PickUps.Where(p => p.PickUpId == customerAddressViewModel.customer.PickId).Single();
                 editCustomer.FirstName = customerAddressViewModel.customer.FirstName;
                 editCustomer.LastName = customerAddressViewModel.customer.LastName;
                 editCustomer.UserName = customerAddressViewModel.customer.UserName;
@@ -128,7 +136,7 @@ namespace TrashCollector.Controllers
                 editAddress.City = customerAddressViewModel.address.City;
                 editAddress.State = customerAddressViewModel.address.State;
                 editAddress.Zipcode = customerAddressViewModel.address.Zipcode;
-                //editPickUp.DayOfWeek = dayofweek;
+                editPickUp.DayOfWeek = dayofweek;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

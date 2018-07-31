@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TrashCollector.Models.PickUps>
+﻿@model IEnumerable<TrashCollector.Models.Customer>
 
 @{
     ViewBag.Title = "Index";
@@ -12,32 +12,49 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Customer.FirstName)
+            Customer Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PickUpDate)
+            Address
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Cost)
+            Extra Pick Up Date
         </th>
-        <th></th>
+        <th>
+            Cost of pick up
+        </th>
+        <th>
+            Day Of Regular PickUP
+        </th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Customer.FirstName)
+            @Html.DisplayFor(modelItem => item.FirstName)
+            @Html.DisplayFor(modelItem => item.LastName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PickUpDate)
+            @Html.DisplayFor(modelItem => item.Address.StreetNumber)
+            @Html.DisplayFor(modelItem => item.Address.StreetName)
+            @Html.DisplayFor(modelItem => item.Address.City)
+            @Html.DisplayFor(modelItem => item.Address.State)
+            @Html.DisplayFor(modelItem => item.Address.Zipcode)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Cost)
+            @Html.DisplayFor(modelItem => item.PickUps.PickUpDate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PickUpId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PickUpId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PickUpId })
+            @Html.DisplayFor(modelItem => item.PickUps.Cost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PickUps.DayOfWeek)
+        </td>
+        <td>
+            @Html.ActionLink("Pick up", "PickUp", new {id=item.PickUps.PickUpId} )
+            @Html.ActionLink("Edit", "Edit", new { id = item.PickUps.PickUpId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.PickUps.PickUpId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.PickUps.PickUpId })
         </td>
     </tr>
 }

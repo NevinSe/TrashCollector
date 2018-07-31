@@ -48,6 +48,7 @@ namespace TrashCollector.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,FirstName,LastName,ZipCode")] Employee employee)
         {
+            employee.UserName = User.Identity.Name;
             if (ModelState.IsValid)
             {
                 db.Employees.Add(employee);

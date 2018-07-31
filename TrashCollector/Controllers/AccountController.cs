@@ -84,11 +84,11 @@ namespace TrashCollector.Controllers
                 case SignInStatus.Success:
                     if(customerUserRole != default(Customer))
                     {
-                        return RedirectToAction("Index", "Customers");
+                        return RedirectToAction("Details", "Customers", new {id = customerUserRole.Id });
                     }
                     else if(employeeUserRole != default(Employee))
                     {
-                        return RedirectToAction("Index", "Employees");
+                        return RedirectToAction("Index", "Customers");
                     }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut: 

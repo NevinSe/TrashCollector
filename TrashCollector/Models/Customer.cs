@@ -27,5 +27,6 @@ namespace TrashCollector.Models
         public int PickId { get; set; }
         public PickUps PickUps { get; set; }
         public string UserName { get; set; }
+        public double AccountBalance { get; set; }
     }
 }
