@@ -13,7 +13,6 @@ namespace TrashCollector.Controllers
     public class PickUpsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: PickUps
         public ActionResult Index()
         {
@@ -62,7 +61,6 @@ namespace TrashCollector.Controllers
             }
             return View(pickUps);
         }
-
         // GET: PickUps/Create
         public ActionResult Create()
         {
