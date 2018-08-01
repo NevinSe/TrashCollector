@@ -5,51 +5,24 @@
 }
 
 <h2>PickUp</h2>
-@using (WebClient wc = new WebClient())
-{
-    string[] addressarr = Model.StreetName.Split(' ');
-    string address = Model.StreetNumber + "+" + String.Join("+", addressarr);
-    string[] cityarr = Model.City.Split(' ');
-    string city = String.Join("+", cityarr);
-    string state = Model.State;
-    string zipcode = Model.Zipcode;
-    string wholeAddress = address+city+state+zipcode;
-    string url = "https://maps.googleapis.com/maps/api/geocode/?address="+address+",+"+city+",+"+state+"&key="+MyAPIKey.MyKey;
-    var jsonStr = wc.DownloadString(url);
-    var jObject = JObject.Parse(jsonStr);
-}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Simple Map</title>
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
-    <style>
-         /* Always set the map height explicitly to define the size of the div
-        * element that contains the map. */
-         #map {
-             height: 100%;
-         }
-         /* Optional: Makes the sample page fill the window. */
-         html, body {
-             height: 100%;
-             margin: 0;
-             padding: 0;
-         }
-    </style>
-</head>
-<body>
-    <div id="map"></div>
-    <script>
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
-        });
-      }
-    </script>
-    <script src="url"
-            async defer></script>
-</body>
-</html>
+
+<script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=c55cd61f08514ba52d0b28d793953517c0185723'></script>
+<script type='text/javascript'>
+    function init_map() {
+        var address = $("#address").val();
+        var geocoder = new google.maps.Geocoder();
+        var latitude = 52.3800447; //Set default value in case address is null.
+        var longitude = 9.728811599999972; //Set default value in case address is null.
+        geocoder.geocode({ 'address': ViewBag.address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                // do something with the geocoded result
+                latitude = results[0].geometry.location.lat();
+                longitude = results[0].geometry.location.lng();
+                var myOptions =
+                    {
+                        zoom: 12,
+                        center: new google.maps.LatLng(latitude, longitude), mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+                map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
+                marker = new google.maps.Marker({ map: map, position: new google.maps.LatLng(latitude, longitude) });
+

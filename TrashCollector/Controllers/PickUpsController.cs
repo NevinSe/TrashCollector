@@ -27,10 +27,26 @@ namespace TrashCollector.Controllers
         public ActionResult Index(string filterDay)
         {
             Employee employee = db.Employees.Where(e => e.UserName == User.Identity.Name).Single();
-            var test = db.PickUps.Select(p => p.PickCustomerId).Distinct().ToList();
-            var pickUps = db.Customers.Include(p => p.Address).Include(p => p.PickUps).Where(p => test.Contains(p.Id)).ToList();
-            var results = pickUps.Where(p => p.Address.Zipcode == employee.Zipcode && p.PickUps.DayOfWeek == filterDay);
-            return View(results);
+            var test = db.PickUps.Select(p => p.PickUpId).Distinct().ToList();
+            var pickUps = db.Customers.Include(p => p.Address).Include(p => p.PickUps).Where(p => test.Contains(p.PickId)).ToList();
+            var results1 = pickUps.Where(p => p.Address.Zipcode == employee.Zipcode && p.PickUps.DayOfWeek == filterDay);
+            var results2 = pickUps.Where(p => p.Address.Zipcode == employee.Zipcode);
+            if (filterDay == "All")
+            {
+                return View(results2);
+            }else
+            return View(results1);
+        }
+        public ActionResult PickUp()
+        {
+            ViewBag.address = "11100NRiverTrailRdMequonWI";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult PickUp(string address)
+        {
+            ViewBag.address = address;
+            return View();
         }
         // GET: PickUps/Details/5
         public ActionResult Details(int? id)

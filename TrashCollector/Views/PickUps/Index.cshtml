@@ -14,7 +14,8 @@ new ListItem { Text = "Wednesday", Value= "Wednesday" },
 new ListItem { Text = "Thursday", Value= "Thursday" },
 new ListItem { Text = "Friday", Value= "Friday" },
 new ListItem { Text = "Saturday", Value= "Saturday" },
-new ListItem { Text = "Sunday", Value= "Sunday" }
+new ListItem { Text = "Sunday", Value= "Sunday" },
+new ListItem { Text = "All", Value="All"}
 };
 }
 <p>
@@ -84,7 +85,7 @@ new ListItem { Text = "Sunday", Value= "Sunday" }
             <td>
                 @Html.ActionLink("Pick up", "Delete", new { id = item.PickUps.PickUpId })
                 |
-                @Html.ActionLink("Details", "Details","Customers", new { id = item.Id })
+                @Html.ActionLink("Details", "Details", "Customers", new { id = item.Id })
             </td>
         </tr>
     }
