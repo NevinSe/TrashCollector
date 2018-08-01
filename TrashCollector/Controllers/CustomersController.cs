@@ -21,17 +21,17 @@ namespace TrashCollector.Controllers
             var customers = db.Customers.Include(c => c.Address).Include(c => c.PickUps);
             return View(customers.ToList());
         }
-        public ActionResult SuspendPickUps(int? id)
+        public ActionResult SuspendPickUps()
         {
-            var customer = db.Customers.Where(c => c.Id == id).SingleOrDefault();
-            return View(customer);
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SuspendPickUps(string StartMonth, string StartDate,string EndMonth, string EndDate)
         {
-            var customer = db.Customers.Where(c => c.Id == int.Parse(User.Identity.GetUserId())).Single();
-            var pickup = db.PickUps.Where(p => p.PickCustomerId == customer.Id).Single();
+            
+            var customer = db.Customers.Where(c => c.UserName == User.Identity.Name).Single();
+            var pickup = db.PickUps.Where(p => p.PickUpId == customer.PickId).Single();
             pickup.SuspendPickUpStart = new DateTime(2018, int.Parse(StartMonth), int.Parse(StartDate));
             pickup.SuspendPickUpEnd = new DateTime(2018, int.Parse(EndMonth), int.Parse(EndDate));
             db.SaveChanges();
@@ -47,7 +47,7 @@ namespace TrashCollector.Controllers
             }
             customerAddressViewModel.customer = db.Customers.Find(id);
             customerAddressViewModel.address = db.Addresses.Find(customerAddressViewModel.customer.AddressId);
-            customerAddressViewModel.PickUps = db.PickUps.Find(customerAddressViewModel.customer.PickId);
+            customerAddressViewModel.PickUps = db.PickUps.Where(c => c.PickUpId == customerAddressViewModel.customer.PickId).Single();
 
             if (customerAddressViewModel.customer == null)
             {

@@ -2,18 +2,21 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
+using System.Linq;
+using System.Web.Mvc;
 using TrashCollector.Models;
 
 [assembly: OwinStartupAttribute(typeof(TrashCollector.Startup))]
 namespace TrashCollector
 {
-    public partial class Startup
+    public partial class Startup : Controller
     {
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
             createRolesandUsers();
         }
+        
         private void createRolesandUsers()
         {
             ApplicationDbContext context = new ApplicationDbContext();

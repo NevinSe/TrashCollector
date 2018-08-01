@@ -18,11 +18,18 @@ namespace TrashCollector.Controllers
         public ActionResult Index()
         {
             Employee employee = db.Employees.Where(e => e.UserName == User.Identity.Name).Single();
-            var test = db.PickUps.Select(p => p.PickCustomerId).Distinct().ToList();
-
-            var pickUps = db.Customers.Include(p=>p.Address).Include(p=>p.PickUps).Where(p => test.Contains(p.Id)).ToList();
-
+            var test = db.PickUps.Select(p => p.PickUpId).Distinct().ToList();
+            var pickUps = db.Customers.Include(p=>p.Address).Include(p=>p.PickUps).Where(p => test.Contains(p.PickId)).ToList();
             var results = pickUps.Where(p => p.Address.Zipcode == employee.Zipcode);
+            return View(results);
+        }
+        [HttpPost]
+        public ActionResult Index(string filterDay)
+        {
+            Employee employee = db.Employees.Where(e => e.UserName == User.Identity.Name).Single();
+            var test = db.PickUps.Select(p => p.PickCustomerId).Distinct().ToList();
+            var pickUps = db.Customers.Include(p => p.Address).Include(p => p.PickUps).Where(p => test.Contains(p.Id)).ToList();
+            var results = pickUps.Where(p => p.Address.Zipcode == employee.Zipcode && p.PickUps.DayOfWeek == filterDay);
             return View(results);
         }
         // GET: PickUps/Details/5
@@ -55,7 +62,7 @@ namespace TrashCollector.Controllers
         public ActionResult Create(PickUps pickUps, string Month, string Date, string DayOfWeek)
         {
             var customer = db.Customers.Where(c => c.UserName == User.Identity.Name).SingleOrDefault();
-            var pickupObject = db.PickUps.Where(p => p.PickCustomerId == customer.Id).Single();
+            var pickupObject = db.PickUps.Where(p => p.PickUpId == customer.PickId).Single();
             pickupObject.PickUpDate = new DateTime(2018, int.Parse(Month), int.Parse(Date));
             pickupObject.Cost += 25;
             //pickUps.PickUpDate = new DateTime(2018, int.Parse(Month), int.Parse(Date));
@@ -125,8 +132,9 @@ namespace TrashCollector.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             PickUps pickUps = db.PickUps.Find(id);
-            Customer customer = db.Customers.Find(pickUps.PickCustomerId);
+            Customer customer = db.Customers.Where(c => c.PickId == pickUps.PickUpId).Single();
             customer.AccountBalance = pickUps.Cost;
+            pickUps.Cost = 75;
             pickUps.PickUpDate = null;
             db.SaveChanges();
             return RedirectToAction("Index");

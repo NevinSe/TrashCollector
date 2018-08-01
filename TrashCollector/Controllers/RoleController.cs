@@ -20,9 +20,19 @@ namespace TrashCollector.Controllers
             {
 
 
-                if (!isAdminUser())
+                if (isAdminUser())
                 {
                     return RedirectToAction("Index", "Home");
+                }
+                else if(isCustomerUser())
+                {
+                    var customer = db.Customers.Where(s => s.UserName == User.Identity.Name).Single();
+                    return RedirectToAction("Details", "Customers", new { id = customer.Id });
+                }
+                else if(isEmployeeUser())
+                {
+                    var employee = db.Employees.Where(s => s.UserName == User.Identity.Name).Single();
+                    return RedirectToAction("Index", "Pickups", new { id = employee.Id });
                 }
             }
             else
@@ -43,6 +53,44 @@ namespace TrashCollector.Controllers
                 var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
                 var s = UserManager.GetRoles(user.GetUserId());
                 if (s[0].ToString() == "Admin")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+        public Boolean isCustomerUser()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                ApplicationDbContext context = new ApplicationDbContext();
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Customer")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+        public Boolean isEmployeeUser()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                ApplicationDbContext context = new ApplicationDbContext();
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Employee")
                 {
                     return true;
                 }

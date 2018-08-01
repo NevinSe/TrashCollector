@@ -88,7 +88,7 @@ namespace TrashCollector.Controllers
                     }
                     else if(employeeUserRole != default(Employee))
                     {
-                        return RedirectToAction("Index", "Customers");
+                        return RedirectToAction("Index", "Pickups");
                     }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut: 

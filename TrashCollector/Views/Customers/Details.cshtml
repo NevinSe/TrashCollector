@@ -1,6 +1,7 @@
 ﻿@model TrashCollector.Models.CustomerAddressViewModel
 
 @{
+    Layout = "~/Views/Shared/Customer_Layout.cshtml";
     ViewBag.Title = "Details";
 }
 
@@ -81,10 +82,33 @@
         <dd>
             @Html.DisplayFor(model => model.customer.AccountBalance)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PickUps.SuspendPickUpStart)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PickUps.SuspendPickUpStart)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PickUps.SuspendPickUpEnd)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PickUps.SuspendPickUpEnd)
+        </dd>
+        <dt>
+            Extra Pick up
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PickUps.PickUpDate)
+        </dd>
+
+
+
     </dl>
 </div>
 <div>Would you like to schedule an additional pick-up?</div>
 <div>@Html.ActionLink("Add Pick Up", "Create", "PickUps")</div>
+<div>Would you like to suspend your pick-ups?</div>
+<div>@Html.ActionLink("Suspend", "SuspendPickUps", "Customers")</div>
 <p>
     @Html.ActionLink("Edit Info", "Edit", new { id = Model.customer.Id }) |
     @Html.ActionLink("Back to List", "Index")

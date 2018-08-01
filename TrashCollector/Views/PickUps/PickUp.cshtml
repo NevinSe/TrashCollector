@@ -1,64 +1,55 @@
-﻿@model TrashCollector.Models.PickUps
-
+﻿@using Newtonsoft.Json.Linq
+@model TrashCollector.Models.Address
 @{
     ViewBag.Title = "PickUp";
 }
 
 <h2>PickUp</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>PickUps</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PickCustomerId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PickCustomerId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DayOfWeek)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DayOfWeek)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PickUpDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PickUpDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Cost)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cost)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Zipcode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Zipcode)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index", "Customers")
-        </div>
-    }
-</div>
+@using (WebClient wc = new WebClient())
+{
+    string[] addressarr = Model.StreetName.Split(' ');
+    string address = Model.StreetNumber + "+" + String.Join("+", addressarr);
+    string[] cityarr = Model.City.Split(' ');
+    string city = String.Join("+", cityarr);
+    string state = Model.State;
+    string zipcode = Model.Zipcode;
+    string wholeAddress = address+city+state+zipcode;
+    string url = "https://maps.googleapis.com/maps/api/geocode/?address="+address+",+"+city+",+"+state+"&key="+MyAPIKey.MyKey;
+    var jsonStr = wc.DownloadString(url);
+    var jObject = JObject.Parse(jsonStr);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+         /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+         #map {
+             height: 100%;
+         }
+         /* Optional: Makes the sample page fill the window. */
+         html, body {
+             height: 100%;
+             margin: 0;
+             padding: 0;
+         }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 8
+        });
+      }
+    </script>
+    <script src="url"
+            async defer></script>
+</body>
+</html>
